@@ -1,0 +1,43 @@
+import PIL.Image
+import numpy as np
+import tensorflow as tf
+import matplotlib.pyplot as plt
+
+
+model = tf.keras.models.load_model('/content/drive/MyDrive/Colab Notebooks/InceptionV3_model.h5')
+
+
+class_labels = ['Bison','Elephant','Horse','lion','Tiger']
+
+
+def preprocess_image(image_path):
+    img = PIL.Image.open(image_path)
+    img = img.resize((299, 299))
+    img = np.array(img) / 255.0
+    img = np.expand_dims(img, axis=0)
+    return img
+
+
+def predict_animal(image_path):
+    processed_image = preprocess_image(image_path)
+    predictions = model.predict(processed_image)
+    predicted_label = class_labels[np.argmax(predictions)]
+    confidence = np.max(predictions)
+    return predicted_label, confidence
+
+
+from google.colab import files
+uploaded = files.upload()
+
+
+uploaded_file_path = list(uploaded.keys())[0]
+
+
+prediction, confidence = predict_animal(uploaded_file_path)
+
+
+img = PIL.Image.open(uploaded_file_path)
+plt.imshow(img)
+plt.axis('off')
+plt.title(f'Prediction: {prediction}\nConfidence: {confidence:.2%}')
+plt.show()
