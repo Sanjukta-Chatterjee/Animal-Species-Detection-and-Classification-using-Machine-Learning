@@ -1,4 +1,4 @@
-﻿absl-py==2.1.0
+bsl-py==2.1.0
 astunparse==1.6.3
 blinker==1.9.0
 certifi==2025.1.31
@@ -51,5 +51,3 @@ tzdata==2025.1
 urllib3==2.3.0
 Werkzeug==3.1.3
 wrapt==1.17.2
-tensorflow_intel==2.18.0
-python==3.10.0
